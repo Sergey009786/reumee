@@ -4,15 +4,14 @@ import {
 } from "@entities/resumes/ResumeTemplate1/api/types";
 import { atom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
+
 const initialState = {
-  // $firstStepData: atomWithImmer<FirstStepData | null>(null),
   $resumePhoto: atom<File | null>(null),
   $resumeData: atomWithImmer<ResumeData | null>(null),
   $resumePreset: atomWithImmer<number | null>(null),
   $resumeAvailableSteps: atomWithImmer<number[]>([]),
   $currentResumeStep: atomWithImmer<number>(0),
   $isAfterGeneration: atomWithImmer<boolean>(false),
-  
 };
 
 export const StepFormSlice = {
@@ -32,27 +31,6 @@ export const StepFormSlice = {
     $validateThirdStepRequiredFields: atom((get) => {
       return get(initialState.$resumePreset) !== null && get(initialState.$resumeData) !== null;
     }),
-
-    // $validateSecondStepRequeredFields: atom((get) => {
-    //   const requiredFields = [
-    //     "Наименование компании",
-    //     "Должность",
-    //     "С",
-    //     "По",
-    //   ];
-    //   const cardData = get(initialState.$cardsData);
-    //   const index = cardData.findIndex((el) => el.id === "workExpirience");
-
-    //   return requiredFields.every((field) => {
-    //     const ind = (cardData[index].fields as FieldType[][])[0].findIndex(
-    //       (el) => el.fieldName === field
-    //     );
-    //     return (
-    //       (cardData[index].fields as FieldType[][])[0][ind].value.length > 0 &&
-    //       (cardData[index].fields as FieldType[][])[0][ind].value !== undefined
-    //     );
-    //   });
-    // }),
   },
   actions: {
     $onFirstStepMutation: atom(
@@ -61,21 +39,17 @@ export const StepFormSlice = {
         get,
         set,
         payload: {
-          field: keyof ResumeData; // Может быть как keyof ResumeData, так и путь к полю в массиве
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          field: keyof ResumeData;
           data: any;
-          index?: number; // Опциональный индекс для массива
-          subField?: string; // Опциональное поле в объекте массива
+          index?: number;
+          subField?: string;
         }
       ) => {
         const { field, data, index, subField } = payload;
 
         set(initialState.$resumeData, (draft) => {
-          // Если есть index и subField, значит работаем с массивом объектов
           if (typeof index !== "undefined" && subField) {
-            // Проверяем, что поле является массивом
             if (Array.isArray((draft as ResumeData)[field])) {
-              // Создаем копию массива с измененным объектом
               const newArray = [
                 ...(draft as ResumeData)[field],
               ] as ProfessionalExperience[];
@@ -90,7 +64,6 @@ export const StepFormSlice = {
             }
           }
 
-          // Стандартное поведение для простых полей
           return {
             ...draft,
             [field]: data,
@@ -113,13 +86,8 @@ export const StepFormSlice = {
         const { index, property, value } = payload;
         set(initialState.$resumeData, (draft) => {
           if (draft) {
-            // draft.professionalPath = payload
             draft.professionalPath[index][property] = value;
           }
-          // return {
-          //   ...draft,
-          //   professionalExperience: payload
-          // };
         });
       }
     ),
@@ -147,13 +115,6 @@ export const StepFormSlice = {
 
     $handleUpdateResumeDataMutation: atom(null, (get, set, payload: ResumeData) => {
       set(initialState.$resumeData, payload);
-
-      // set(initialState.$resumeData, (draft)  => {
-      //   fieldsToClear.forEach((field) => {
-      //     draft[field] = '';
-      //     // draft[field] = null;
-      //   })
-      // })
     }),
 
     $handleSetResumePhoto: atom(null, (get, set, payload: File | null) => {
@@ -203,12 +164,10 @@ export const StepFormSlice = {
       set(initialState.$resumeData, (draft) => {
         const newData = { ...draft };
 
-        // Если professionalPath не существует, инициализируем его
         if (!newData.educationDetails) {
           newData.educationDetails = [];
         }
 
-        // Добавляем новый элемент через spread (без мутации)
         newData.educationDetails = [
           ...newData.educationDetails,
           {
@@ -259,6 +218,74 @@ export const StepFormSlice = {
       ) {
         set(initialState.$currentResumeStep, payload);
       }
+    }),
+
+    // Add pseudo-fill feature using AI
+    $fillResumeWithAiData: atom(null, (get, set) => {
+      const currentData = get(initialState.$resumeData);
+      
+      const aiGeneratedData: ResumeData = {
+        name: currentData?.name || "John Doe",
+        role: currentData?.role || "Senior Software Engineer",
+        experience: currentData?.experience || "5 years",
+        education: currentData?.education || "Bachelor's in Computer Science",
+        location: currentData?.location || "San Francisco, CA",
+        email: currentData?.email || "john.doe@example.com",
+        phoneNumber: "+1 (555) 123-4567",
+        summary: currentData?.summary || "Experienced software engineer with 5+ years of expertise in full-stack development, specializing in React, Node.js, and cloud technologies. Proven track record of delivering scalable solutions and leading cross-functional teams to achieve business objectives.",
+        skills: currentData?.skills?.length ? currentData.skills : [
+          "JavaScript", "TypeScript", "React", "Node.js", "Python", 
+          "AWS", "Docker", "PostgreSQL", "MongoDB", "Git"
+        ],
+        professionalPath: currentData?.professionalPath?.length ? currentData.professionalPath : [
+          {
+            name: "Tech Solutions Inc.",
+            role: "Senior Software Engineer",
+            description: "Led development of enterprise-level web applications serving 100k+ users",
+            startWork: "01.2022",
+            endWork: "Present",
+            achievements: [
+              "Improved application performance by 40% through code optimization",
+              "Led a team of 5 developers in delivering critical features",
+              "Implemented CI/CD pipeline reducing deployment time by 60%"
+            ],
+            responsibilities: [
+              "Architected and developed scalable web applications",
+              "Mentored junior developers and conducted code reviews",
+              "Collaborated with product managers to define technical requirements"
+            ]
+          },
+          {
+            name: "StartupXYZ",
+            role: "Full Stack Developer",
+            description: "Developed MVP and core features for a fintech startup",
+            startWork: "06.2020",
+            endWork: "12.2021",
+            achievements: [
+              "Built the entire frontend from scratch using React",
+              "Designed and implemented RESTful APIs",
+              "Achieved 99.9% uptime for production systems"
+            ],
+            responsibilities: [
+              "Developed both frontend and backend components",
+              "Integrated third-party payment systems",
+              "Maintained and optimized database performance"
+            ]
+          }
+        ],
+        educationDetails: currentData?.educationDetails?.length ? currentData.educationDetails : [
+          {
+            name: "University of California, Berkeley",
+            faculty: "Engineering",
+            speciality: "Computer Science",
+            endYear: "2020",
+            level: "bachelor"
+          }
+        ]
+      };
+
+      set(initialState.$resumeData, aiGeneratedData);
+      set(initialState.$isAfterGeneration, true);
     }),
   },
 };

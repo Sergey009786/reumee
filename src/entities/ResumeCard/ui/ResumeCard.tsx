@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Button, DatePicker, Divider, Input, InputNumber, Select } from "antd";
 import dayjs from "dayjs";
 import TextArea from "antd/es/input/TextArea";
-import { CloseOutlined, UpOutlined, FileTextOutlined, InboxOutlined, ToolOutlined } from "@ant-design/icons";
+import { CloseOutlined, UpOutlined, DownOutlined, FileTextOutlined, InboxOutlined, ToolOutlined } from "@ant-design/icons";
 import { FieldType } from "@shared/types/ToolBarTypes";
 import { useAtomValue, useSetAtom } from "jotai";
 import { StepFormSlice } from "@features/FirstStepForm/slice/FirstStepFormSlice";
@@ -501,7 +501,6 @@ export function Skills() {
   const firstStepData = useAtomValue(initialState.$resumeData);
   const handleWritedata = useSetAtom($onFirstStepMutation);
 
-
   return (
     <div className={cls.skillsInfoWrapper}>
       <div className={cls.skillsContainer}>
@@ -579,6 +578,10 @@ const ResumeCard = ({ cardName, icon, id }: ResumeCardProps) => {
     }
   };
 
+  const handleHeaderClick = () => {
+    setIsCollapsed((prev) => !prev);
+  };
+
   return (
     <div
       className={classNames(cls.cardWrapper, {
@@ -589,6 +592,8 @@ const ResumeCard = ({ cardName, icon, id }: ResumeCardProps) => {
         className={classNames(cls.header, {
           [cls.collapsedHeader]: isCollapsed,
         })}
+        onClick={handleHeaderClick}
+        style={{ cursor: 'pointer' }}
       >
         <div className={cls.icon}>
           {icon}
@@ -596,9 +601,20 @@ const ResumeCard = ({ cardName, icon, id }: ResumeCardProps) => {
             {cardName}
           </Typography.IbmPlexMono>
         </div>
-        <Button type="text" className={cls.btn} onClick={handleAddClick}>
-          {getButtonText()}
-        </Button>    
+        <div className={cls.headerActions}>
+          <Button type="text" className={cls.btn} onClick={(e) => {
+            e.stopPropagation();
+            handleAddClick();
+          }}>
+            {getButtonText()}
+          </Button>
+          <Button type="text" className={cls.toggleBtn} onClick={(e) => {
+            e.stopPropagation();
+            handleHeaderClick();
+          }}>
+            {isCollapsed ? <UpOutlined /> : <DownOutlined />}
+          </Button>
+        </div>
       </div>
       {isCollapsed ? (
         <div>
