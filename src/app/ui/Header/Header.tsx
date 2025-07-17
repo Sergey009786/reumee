@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { FileText, Menu, X } from 'lucide-react';
 import cls from './Header.module.scss';
+import { useAtomValue } from 'jotai';
+import { StepFormSlice } from '@features/FirstStepForm/slice/FirstStepFormSlice';
 
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const currentStep = useAtomValue(StepFormSlice.initialState.$currentResumeStep);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Hide header navigation on the last step (Resume Editor)
+  const shouldShowNavigation = currentStep < 4;
   return (
     <header className={cls.root}>
       <div className={cls.container}>
@@ -20,7 +25,8 @@ function Header() {
             </div>
             <span className={cls.logoText}>ResumeAI</span>
           </a>
-      <div className={cls.navPar}>
+      {shouldShowNavigation && (
+        <div className={cls.navPar}>
           {/* Desktop Navigation */}
           <nav className={cls.nav}>
             <a href="/features" className={cls.navLink}>Features</a>
@@ -33,9 +39,11 @@ function Header() {
           <div className={cls.cta}>
             <button className={cls.ctaButton}>Sign Up Free</button>
           </div>
-      </div>
+        </div>
+      )}
           {/* Mobile Menu Toggle */}
-          <div className={cls.mobileToggle}>
+          {shouldShowNavigation && (
+            <div className={cls.mobileToggle}>
             <button 
               className={cls.mobileButton}
               onClick={toggleMobileMenu}
@@ -47,11 +55,12 @@ function Header() {
                 <Menu className={cls.mobileIcon} />
               )}
             </button>
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
+        {isMobileMenuOpen && shouldShowNavigation && (
           <div className={cls.mobileMenu}>
             <nav className={cls.mobileNav}>
               <a href="/features" className={cls.mobileLink}>Features</a>

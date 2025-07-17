@@ -46,6 +46,8 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
     }
   }, [photo]);
 
+  // Also check for photo in resumeData if no direct photo prop
+  const displayPhotoUrl = photoUrl || (resumeData?.photoUrl);
   const isEmpty = !name && !role && !email && !summary && (!skills || skills.length === 0) && 
                   (!professionalPath || professionalPath.length === 0) && 
                   (!educationDetails || educationDetails.length === 0);
@@ -61,8 +63,8 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
         <div className={cls.heading}>
           <div className={cls.heading_information}>
             <div className={cls.imtext}>
-              {photoUrl ? (
-                <img src={photoUrl} className={classNames({
+              {displayPhotoUrl ? (
+                <img src={displayPhotoUrl} className={classNames({
                   [cls.profilePhotoClassic]: !isShrinked,
                   [cls.profilePhotoShrinked]: isShrinked,
                 })} alt="Profile" />

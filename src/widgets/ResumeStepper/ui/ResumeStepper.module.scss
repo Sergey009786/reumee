@@ -12,98 +12,131 @@
     .ant-steps {
       display: flex;
       justify-content: center;
-      text-align: center;
-      padding: 24px 0;
+      align-items: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
     .ant-steps-item {
       display: flex;
+      flex-direction: column;
+      align-items: center;
       position: relative;
+      flex: 1;
+      max-width: 200px;
       
-      &::after {
+      &:not(:last-child)::after {
         content: '';
         position: absolute;
-        top: 20px;
-        left: calc(50% + 20px);
-        width: calc(100% - 40px);
-        height: 2px;
-        background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 100%);
+        top: 32px;
+        left: calc(50% + 32px);
+        width: calc(100% - 64px);
+        height: 3px;
+        background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%);
+        border-radius: 2px;
         z-index: 1;
-      }
-      
-      &:last-child::after {
-        display: none;
+        transition: all 0.3s ease;
       }
       
       &.ant-steps-item-finish::after {
-        background: linear-gradient(90deg, #7c3aed 0%, #c026d3 100%);
+        background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
       }
       
       &.ant-steps-item-process::after {
-        background: linear-gradient(90deg, #7c3aed 50%, #e5e7eb 50%);
+        background: linear-gradient(90deg, #3b82f6 50%, #e2e8f0 50%);
       }
     }
 
     .ant-steps-item-icon {
-      width: 40px;
-      height: 40px;
-      line-height: 38px;
-      font-weight: 600;
+      width: 64px;
+      height: 64px;
+      line-height: 60px;
+      font-weight: 700;
       border-radius: 50%;
-      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-      color: #9ca3af;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      margin-bottom: 12px;
-      border: 2px solid #e5e7eb;
-      font-size: 16px;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      color: #94a3b8;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-bottom: 16px;
+      border: 3px solid #e2e8f0;
+      font-size: 20px;
       position: relative;
       z-index: 2;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
     }
 
     .ant-steps-item-process .ant-steps-item-icon {
-      background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
       color: #ffffff;
-      border-color: #7c3aed;
-      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+      border-color: #3b82f6;
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
       transform: scale(1.1);
+      
+      &:hover {
+        transform: scale(1.15) translateY(-2px);
+        box-shadow: 0 12px 30px rgba(59, 130, 246, 0.5);
+      }
     }
 
     .ant-steps-item-finish .ant-steps-item-icon {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #ffffff;
       border-color: #10b981;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(16, 185, 129, 0.5);
+      }
     }
 
     .ant-steps-item-wait .ant-steps-item-icon {
-      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-      color: #9ca3af;
-      border-color: #e5e7eb;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      color: #94a3b8;
+      border-color: #e2e8f0;
+      
+      &:hover {
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        color: #64748b;
+        border-color: #cbd5e1;
+      }
     }
 
     .ant-steps-item-content {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      align-items: center;
+      text-align: center;
       min-height: 60px;
+      max-width: 160px;
     }
 
     .ant-steps-item-title {
       font-weight: 600;
-      font-size: 14px;
+      font-size: 16px;
       margin: 0;
-      text-align: center;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      color: #6b7280;
-      transition: color 0.3s ease;
+      color: #64748b;
+      transition: all 0.3s ease;
       line-height: 1.4;
-      max-width: 120px;
+      margin-bottom: 8px;
     }
 
     .ant-steps-item-process .ant-steps-item-title {
-      color: #7c3aed;
+      color: #3b82f6;
       font-weight: 700;
+      font-size: 17px;
     }
 
     .ant-steps-item-finish .ant-steps-item-title {
@@ -112,22 +145,35 @@
     }
 
     .ant-steps-item-description {
-      font-size: 12px;
-      color: #9ca3af;
+      font-size: 13px;
+      color: #94a3b8;
       text-align: center;
-      margin-top: 4px;
-      line-height: 1.3;
+      line-height: 1.4;
+      font-weight: 400;
     }
 
-    /* Enhanced hover effects */
-    .ant-steps-item:hover .ant-steps-item-icon {
-      transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    .ant-steps-item-process .ant-steps-item-description {
+      color: #60a5fa;
+      font-weight: 500;
     }
 
-    .ant-steps-item-process:hover .ant-steps-item-icon {
-      transform: scale(1.15);
-      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+    .ant-steps-item-finish .ant-steps-item-description {
+      color: #34d399;
+    }
+
+    /* Enhanced animations */
+    .ant-steps-item {
+      transition: all 0.3s ease;
+      
+      &:hover {
+        .ant-steps-item-title {
+          transform: translateY(-1px);
+        }
+        
+        .ant-steps-item-description {
+          opacity: 0.8;
+        }
+      }
     }
 
     /* Mobile Responsive */
@@ -135,61 +181,77 @@
       .ant-steps {
         flex-direction: column !important;
         align-items: center;
-        gap: 24px;
+        gap: 32px;
+        padding: 30px 20px;
       }
 
       .ant-steps-item {
         margin-bottom: 0;
         position: relative;
         width: 100%;
-        max-width: 300px;
+        max-width: 280px;
         
-        &::after {
+        &:not(:last-child)::after {
           content: '';
           position: absolute;
-          width: 2px;
-          height: 40px;
-          background: linear-gradient(180deg, #e5e7eb 0%, #d1d5db 100%);
+          width: 3px;
+          height: 48px;
+          background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
           left: 50%;
-          top: 60px;
+          top: 80px;
           transform: translateX(-50%);
-        }
-        
-        &:last-child::after {
-          display: none;
+          border-radius: 2px;
         }
         
         &.ant-steps-item-finish::after {
-          background: linear-gradient(180deg, #7c3aed 0%, #c026d3 100%);
+          background: linear-gradient(180deg, #10b981 0%, #059669 100%);
         }
         
         &.ant-steps-item-process::after {
-          background: linear-gradient(180deg, #7c3aed 50%, #e5e7eb 50%);
+          background: linear-gradient(180deg, #3b82f6 50%, #e2e8f0 50%);
         }
       }
 
+      .ant-steps-item-icon {
+        width: 56px;
+        height: 56px;
+        line-height: 52px;
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+
       .ant-steps-item-content {
-        margin-top: 8px;
-        align-items: center;
+        max-width: 200px;
       }
 
       .ant-steps-item-title {
-        max-width: 200px;
-        font-size: 13px;
+        font-size: 15px;
+      }
+
+      .ant-steps-item-description {
+        font-size: 12px;
       }
     }
 
     @media (max-width: 480px) {
+      .ant-steps {
+        padding: 20px 15px;
+        gap: 24px;
+      }
+
       .ant-steps-item-icon {
-        width: 36px;
-        height: 36px;
-        line-height: 34px;
-        font-size: 14px;
+        width: 48px;
+        height: 48px;
+        line-height: 44px;
+        font-size: 16px;
       }
 
       .ant-steps-item-title {
-        font-size: 12px;
-        max-width: 150px;
+        font-size: 14px;
+      }
+
+      .ant-steps-item-description {
+        font-size: 11px;
       }
     }
   }

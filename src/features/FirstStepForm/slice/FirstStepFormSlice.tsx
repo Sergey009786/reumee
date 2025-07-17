@@ -105,9 +105,11 @@ export const StepFormSlice = {
         const education = draft?.educationDetails
           ? draft.educationDetails
           : null;
+        const photo = get(initialState.$resumePhoto);
         return {
           ...payload,
           educationDetails: education,
+          photoUrl: photo ? URL.createObjectURL(photo) : undefined,
         };
       });
       set(initialState.$isAfterGeneration, true);

@@ -8,15 +8,18 @@ import { useAtomValue } from "jotai";
 import { ResumeData } from "@entities/resumes/ResumeTemplate1/api/types";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { Button } from "antd";
 
 // };
 
 const { $resumeData, $resumePhoto } = StepFormSlice.initialState;
+const { $handleResumeStepChange } = StepFormSlice.actions;
 
 function ResumeContainer() {
   const [pageOffsets, setPageOffsets] = useState<number[]>([0]);
   const resumeContentRef = useRef<HTMLDivElement>(null);
   const resumeData = useAtomValue($resumeData);
+  const handleResumeStepChange = useAtomValue($handleResumeStepChange);
 
   const photo = useAtomValue($resumePhoto);
 
@@ -45,6 +48,7 @@ function ResumeContainer() {
           <ResumeTemplate1
             ref={resumeContentRef}
             resumeData={resumeData as ResumeData}
+            photo={photo}
             // resumeData={resumeMock}
             // allowEditing
             contentSpace={0}
@@ -59,6 +63,9 @@ function ResumeContainer() {
 
         <div className={cls.resumeStep}>
           <div className={cls.resumeToolbar}>
+            <Button onClick={() => handleResumeStepChange(3)}>
+              Back to Templates
+            </Button>
             <button className={cls.resume} onClick={() => window.print()}>
               <img src={Printer} />
             </button>

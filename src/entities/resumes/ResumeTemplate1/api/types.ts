@@ -29,6 +29,7 @@ type ResumeData = {
   skills: string[]
   professionalPath: ProfessionalExperience[]
   educationDetails: EducationBlock[]
+  photoUrl?: string
 };
 
 export type {
