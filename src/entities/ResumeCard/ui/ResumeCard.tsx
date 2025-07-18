@@ -12,6 +12,7 @@ import { StepFormSlice } from "@features/FirstStepForm/slice/FirstStepFormSlice"
 import { TagInput } from "@shared/ui/TagInput/TagInput";
 import { selectOption } from "@features/EducationStep/ui/EducationStep";
 import FileUploader from "@shared/ui/UploadPhoto/UploadPhoto";
+import { useEffect } from "react";
 
 type ResumeCardProps = {
   cardName: string;
@@ -540,6 +541,34 @@ const ResumeCard = ({ cardName, icon, id }: ResumeCardProps) => {
   const firstStepData = useAtomValue(initialState.$resumeData);
   const handleAddEducation = useSetAtom($onAddEducationButtonClick);
   const handleAddWorkExperience = useSetAtom($onAddWorkExpirienceButtonClick);
+  
+  // Auto-expand sections that have data
+  useEffect(() => {
+    if (firstStepData) {
+      switch (id) {
+        case 'personalInfo':
+          if (firstStepData.name || firstStepData.email || firstStepData.role) {
+            setIsCollapsed(true);
+          }
+          break;
+        case 'education':
+          if (firstStepData.educationDetails && firstStepData.educationDetails.length > 0) {
+            setIsCollapsed(true);
+          }
+          break;
+        case 'workExpirience':
+          if (firstStepData.professionalPath && firstStepData.professionalPath.length > 0) {
+            setIsCollapsed(true);
+          }
+          break;
+        case 'skills':
+          if (firstStepData.skills && firstStepData.skills.length > 0) {
+            setIsCollapsed(true);
+          }
+          break;
+      }
+    }
+  }, [firstStepData, id]);
 
   // Determine if we should show content and what button text to use
   const getButtonText = () => {

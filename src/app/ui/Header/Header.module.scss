@@ -55,6 +55,12 @@ $shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06
   position: sticky;
   top: 0;
   z-index: 50;
+  
+  &.editorHeader {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-bottom: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .container {
@@ -79,6 +85,118 @@ $shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06
   // When navigation is hidden, center the logo
   &:has(.logo:only-child) {
     justify-content: center;
+  }
+}
+
+// Editor Header Styles
+.editorContent {
+  @include flex-center;
+  justify-content: space-between;
+  height: 80px;
+  padding: 0 2rem;
+}
+
+.editorLeft {
+  flex: 1;
+}
+
+.editorCenter {
+  flex: 2;
+  @include flex-center;
+  justify-content: center;
+}
+
+.editorRight {
+  flex: 1;
+  @include flex-center;
+  justify-content: flex-end;
+}
+
+.editorLogo {
+  @include flex-center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.editorLogoImg {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.editorLogoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $white;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.progressContainer {
+  @include flex-center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progressBar {
+  width: 200px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+  border-radius: 3px;
+  animation: progressPulse 2s ease-in-out infinite;
+}
+
+.progressText {
+  color: $white;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.userProfile {
+  @include flex-center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profilePlaceholder {
+  @include flex-center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes progressPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
   }
 }
 

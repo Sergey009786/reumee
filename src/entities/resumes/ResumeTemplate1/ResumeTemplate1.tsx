@@ -2,8 +2,10 @@ import classNames from 'classnames';
 import cls from './ResumeTemplate1.module.scss';
 import { ResumeData } from './api/types';
 import { ProfessionalPath } from './ProfessionalPath';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { EducationDetails } from './EducationDetails';
+import { useSetAtom } from 'jotai';
+import { StepFormSlice } from '@features/FirstStepForm/slice/FirstStepFormSlice';
 
 type ResumeTemplate1Props = {
   isShrinked?: boolean
@@ -20,6 +22,9 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
   photo,
   contentSpace,
 }, ref) => {
+  const handleWritedata = useSetAtom(StepFormSlice.actions.$onFirstStepMutation);
+  const contentEditableRefs = useRef<{ [key: string]: HTMLElement | null }>({});
+  
   const {
     name,
     role,
@@ -51,6 +56,26 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
   const isEmpty = !name && !role && !email && !summary && (!skills || skills.length === 0) && 
                   (!professionalPath || professionalPath.length === 0) && 
                   (!educationDetails || educationDetails.length === 0);
+
+  const handleContentEdit = (field: keyof ResumeData, value: string) => {
+    if (allowEditing) {
+      handleWritedata({ field, data: value });
+    }
+  };
+
+  const handleBlur = (field: keyof ResumeData) => (e: React.FocusEvent<HTMLSpanElement>) => {
+    const value = e.target.textContent || '';
+    handleContentEdit(field, value);
+  };
+
+  const handleKeyDown = (field: keyof ResumeData) => (e: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const value = e.currentTarget.textContent || '';
+      handleContentEdit(field, value);
+      e.currentTarget.blur();
+    }
+  };
 
   return (
     <div className={classNames(cls.resume, {
@@ -84,13 +109,31 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
                 </div>
               )}
               <div className={cls.imgText}>
-                <span contentEditable={allowEditing} className={cls.name}>
+                <span 
+                  contentEditable={allowEditing} 
+                  className={cls.name}
+                  onBlur={handleBlur('name')}
+                  onKeyDown={handleKeyDown('name')}
+                  suppressContentEditableWarning={true}
+                >
                   {name || (isEmpty ? "Your Name" : "")}
                 </span>
-                <span contentEditable={allowEditing} className={cls.role}>
+                <span 
+                  contentEditable={allowEditing} 
+                  className={cls.role}
+                  onBlur={handleBlur('role')}
+                  onKeyDown={handleKeyDown('role')}
+                  suppressContentEditableWarning={true}
+                >
                   {role || (isEmpty ? "Your Position" : "")}
                 </span>
-                <span contentEditable={allowEditing} className={cls.notbold}>
+                <span 
+                  contentEditable={allowEditing} 
+                  className={cls.notbold}
+                  onBlur={handleBlur('email')}
+                  onKeyDown={handleKeyDown('email')}
+                  suppressContentEditableWarning={true}
+                >
                   {email || (isEmpty ? "your.email@example.com" : "")}
                 </span>
               </div>
@@ -99,7 +142,13 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
             {(experience || isEmpty) && (
               <div className={cls.infoName}>
                 <span className={cls.bold}>Experience:</span>
-                <span contentEditable={allowEditing} className={cls.notbold}>
+                <span 
+                  contentEditable={allowEditing} 
+                  className={cls.notbold}
+                  onBlur={handleBlur('experience')}
+                  onKeyDown={handleKeyDown('experience')}
+                  suppressContentEditableWarning={true}
+                >
                   {experience || (isEmpty ? "Your years of experience" : "")}
                 </span>
               </div>
@@ -108,7 +157,13 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
             {(education || isEmpty) && (
               <div className={cls.edName}>
                 <span className={cls.bold}>Education:</span>
-                <span contentEditable={allowEditing} className={cls.notbold}>
+                <span 
+                  contentEditable={allowEditing} 
+                  className={cls.notbold}
+                  onBlur={handleBlur('education')}
+                  onKeyDown={handleKeyDown('education')}
+                  suppressContentEditableWarning={true}
+                >
                   {education || (isEmpty ? "Your education background" : "")}
                 </span>
               </div>
@@ -117,7 +172,13 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
             {(location || isEmpty) && (
               <div className={cls.loName}>
                 <span className={cls.bold}>Location:</span>
-                <span contentEditable={allowEditing} className={cls.notbold}>
+                <span 
+                  contentEditable={allowEditing} 
+                  className={cls.notbold}
+                  onBlur={handleBlur('location')}
+                  onKeyDown={handleKeyDown('location')}
+                  suppressContentEditableWarning={true}
+                >
                   {location || (isEmpty ? "Your location" : "")}
                 </span>
               </div>
@@ -129,7 +190,13 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
           {(summary?.length || isEmpty) && (
             <div className={cls.abName}>
               <span className={cls.bold}>About Me:</span>
-              <span contentEditable={allowEditing} className={cls.notbold}>
+              <span 
+                contentEditable={allowEditing} 
+                className={cls.notbold}
+                onBlur={handleBlur('summary')}
+                onKeyDown={handleKeyDown('summary')}
+                suppressContentEditableWarning={true}
+              >
                 {summary || (isEmpty ? "A brief description about yourself, your skills, and career objectives. This section should highlight your key strengths and what makes you unique as a professional." : "")}
               </span>
             </div>
@@ -138,7 +205,18 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
           {(skills?.length || isEmpty) && (
             <div className={cls.skName}>
               <span className={cls.bold}>Skills:</span>
-              <span contentEditable={allowEditing} className={cls.notbold}>
+              <span 
+                contentEditable={allowEditing} 
+                className={cls.notbold}
+                onBlur={(e) => {
+                  if (allowEditing) {
+                    const skillsText = e.target.textContent || '';
+                    const skillsArray = skillsText.split(',').map(skill => skill.trim()).filter(skill => skill.length > 0);
+                    handleWritedata({ field: 'skills', data: skillsArray });
+                  }
+                }}
+                suppressContentEditableWarning={true}
+              >
                 {skills?.length ? skills.join(", ") : (isEmpty ? "JavaScript, React, Node.js, Python, SQL, Git" : "")}
               </span>
             </div>
@@ -150,7 +228,7 @@ const ResumeTemplate1 = React.forwardRef<HTMLDivElement, ResumeTemplate1Props>((
 
               {professionalPath?.length ? (
                 professionalPath.map((item, index) => (
-                  <ProfessionalPath allowEditing={allowEditing} key={`${item.name}-${index}`} {...item} />
+                  <ProfessionalPath allowEditing={allowEditing} index={index} key={`${item.name}-${index}`} {...item} />
                 ))
               ) : isEmpty ? (
                 <div className={cls.professionalPathWrap}>
