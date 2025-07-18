@@ -15,11 +15,23 @@
     margin: 0 auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
     
     @media print {
         box-shadow: none;
         margin: 0;
         padding: 15mm;
+        width: 210mm;
+        min-height: 297mm;
+    }
+    
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        min-height: auto;
+        padding: 20px;
+        margin: 0;
     }
 }
 
@@ -87,6 +99,13 @@
         font-weight: bold;
         color: #2c3e50;
         margin: 0;
+        min-height: 35px;
+        
+        &:empty::before {
+            content: "John Doe";
+            color: #666;
+            font-style: normal;
+        }
     }
 
     .role {
@@ -94,12 +113,26 @@
         font-weight: 600;
         font-size: 18px;
         margin: 0;
+        min-height: 22px;
+        
+        &:empty::before {
+            content: "Software Engineer";
+            color: #7C3AED;
+            font-style: normal;
+        }
     }
 
     .notbold {
         color: #666;
         font-size: 14px;
         margin: 0;
+        min-height: 18px;
+        
+        &:empty::before {
+            content: "john.doe@example.com";
+            color: #666;
+            font-style: normal;
+        }
     }
 }
 
@@ -107,13 +140,14 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     padding: 8px 0;
+    min-height: 40px;
     
     .bold {
         font-weight: 600;
         color: #2c3e50;
-        min-width: 100px;
+        min-width: 120px;
         flex-shrink: 0;
     }
     
@@ -122,7 +156,33 @@
         flex: 1;
         margin-left: 20px;
         line-height: 1.4;
+        min-height: 20px;
+        
+        &:empty::before {
+            color: #666;
+            font-style: normal;
+        }
     }
+}
+
+.infoName .notbold:empty::before {
+    content: "5+ years of experience";
+}
+
+.edName .notbold:empty::before {
+    content: "Bachelor's Degree in Computer Science";
+}
+
+.loName .notbold:empty::before {
+    content: "New York, USA";
+}
+
+.abName .notbold:empty::before {
+    content: "Experienced software engineer with 5+ years of expertise in full-stack development, specializing in React, Node.js, and cloud technologies. Proven track record of delivering scalable solutions and leading cross-functional teams to achieve business objectives.";
+}
+
+.skName .notbold:empty::before {
+    content: "JavaScript, React, Node.js, Python, SQL, Git, AWS, Docker";
 }
 
 .cnName, .psName, .dcName, .esName, .respName, .achivName {
@@ -130,6 +190,7 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 15px;
+    min-height: 30px;
     
     .bold {
         font-weight: 600;
@@ -143,6 +204,12 @@
         flex: 1;
         margin-left: 20px;
         line-height: 1.4;
+        min-height: 20px;
+        
+        &:empty::before {
+            color: #666;
+            font-style: normal;
+        }
     }
     
     .boldEnd {
@@ -153,11 +220,24 @@
     }
 }
 
+.cnName .notbold:empty::before {
+    content: "Tech Solutions Inc.";
+}
+
+.psName .notbold:empty::before {
+    content: "Senior Software Engineer";
+}
+
+.dcName .notbold:empty::before {
+    content: "Led development of enterprise applications serving 100k+ users. Architected scalable web applications and mentored junior developers.";
+}
+
 .eyName, .inName, .leName, .faName, .spName {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 10px;
+    min-height: 25px;
     
     .bold {
         font-weight: 600;
@@ -171,7 +251,33 @@
         flex: 1;
         margin-left: 20px;
         line-height: 1.4;
+        min-height: 18px;
+        
+        &:empty::before {
+            color: #666;
+            font-style: normal;
+        }
     }
+}
+
+.eyName .notbold:empty::before {
+    content: "2020";
+}
+
+.inName .notboldbold:empty::before {
+    content: "University of California, Berkeley";
+}
+
+.leName .notbold:empty::before {
+    content: "Bachelor";
+}
+
+.faName .notbold:empty::before {
+    content: "Computer Science";
+}
+
+.spName .notbold:empty::before {
+    content: "Software Engineering";
 }
 
 .achievements {
@@ -179,6 +285,7 @@
     flex-direction: column;
     gap: 8px;
     margin-top: 10px;
+    min-height: 60px;
 }
 
 .achivLi {
@@ -189,6 +296,13 @@
     font-size: 14px;
     line-height: 1.4;
     color: #555;
+    min-height: 35px;
+    
+    &:empty::before {
+        content: "Improved application performance by 40% through code optimization";
+        color: #555;
+        font-style: normal;
+    }
 }
 
 .work {
@@ -226,12 +340,13 @@
 .professionalPathWrap {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    margin-bottom: 30px;
+    gap: 15px;
+    margin-bottom: 25px;
     padding: 20px;
     background: #fafafa;
     border-radius: 8px;
     border: 1px solid #e9ecef;
+    min-height: 200px;
 }
 
 .skills {
@@ -251,13 +366,14 @@
     flex-direction: column;
     gap: 20px;
     margin-bottom: 30px;
+    min-height: 250px;
 }
 
 .mainInfo {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    min-height: 200mm; // Ensure minimum content height
+    min-height: 200mm; // Ensure minimum content height for A4
 }
 
 .achievementItem {
@@ -278,6 +394,7 @@
     position: relative;
     width: 100%;
     height: 100%;
+    min-height: 257mm; // A4 height minus padding
 }
 
 .educationBlock {
@@ -289,55 +406,45 @@
     background: #fafafa;
     border-radius: 8px;
     border: 1px solid #e9ecef;
-}
-
-// Empty state styling
-.emptySection {
-    padding: 40px 20px;
-    text-align: center;
-    color: #999;
-    border: 2px dashed #ddd;
-    border-radius: 8px;
-    margin: 20px 0;
-    
-    .emptyTitle {
-        font-size: 16px;
-        font-weight: 500;
-        margin-bottom: 8px;
-        color: #666;
-    }
-    
-    .emptyDescription {
-        font-size: 14px;
-        color: #999;
-    }
+    min-height: 120px;
 }
 
 // Placeholder content for empty resume
 .placeholderContent {
-    .name {
-        color: #ccc !important;
+    .profilePhotoClassic {
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 12px;
         
-        &:empty::before {
-            content: "Your Name";
-            color: #ccc;
+        &::before {
+            content: "Photo";
         }
     }
-    
-    .role {
-        color: #ccc !important;
-        
-        &:empty::before {
-            content: "Your Position";
-            color: #ccc;
-        }
+}
+
+// Ensure proper A4 layout
+@media screen {
+    .resume {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+    }
+}
+
+// Print styles
+@media print {
+    .resume {
+        width: 210mm !important;
+        min-height: 297mm !important;
+        margin: 0 !important;
+        padding: 15mm !important;
+        box-shadow: none !important;
+        border: none !important;
     }
     
-    .notbold {
-        &:empty::before {
-            content: "Information will appear here";
-            color: #ccc;
-            font-style: italic;
-        }
+    .resumeContent {
+        min-height: 267mm !important;
     }
 }

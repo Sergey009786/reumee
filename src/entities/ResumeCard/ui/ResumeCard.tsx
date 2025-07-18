@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Button, DatePicker, Divider, Input, InputNumber, Select } from "antd";
 import dayjs from "dayjs";
 import TextArea from "antd/es/input/TextArea";
-import { CloseOutlined, UpOutlined, DownOutlined, FileTextOutlined, InboxOutlined, ToolOutlined } from "@ant-design/icons";
+import { CloseOutlined, UpOutlined, DownOutlined, FileTextOutlined, InboxOutlined } from "@ant-design/icons";
 import { FieldType } from "@shared/types/ToolBarTypes";
 import { useAtomValue, useSetAtom } from "jotai";
 import { StepFormSlice } from "@features/FirstStepForm/slice/FirstStepFormSlice";
@@ -17,7 +17,7 @@ import { useEffect } from "react";
 type ResumeCardProps = {
   cardName: string;
   type: "form" | "select";
-  icon: React.ReactNode;
+  icon: string;
   fields: string[] | FieldType[] | FieldType[][];
   id: string;
 };
@@ -574,16 +574,13 @@ const ResumeCard = ({ cardName, icon, id }: ResumeCardProps) => {
   const getButtonText = () => {
     switch (id) {
       case 'education':
-        const hasEducation = firstStepData?.educationDetails && firstStepData.educationDetails.length > 0;
-        return hasEducation ? `+ Add ${cardName}` : `+ Add ${cardName}`;
+        return `+ Add ${cardName}`;
       case 'workExpirience':
-        const hasWork = firstStepData?.professionalPath && firstStepData.professionalPath.length > 0;
-        return hasWork ? `+ Add ${cardName}` : `+ Add ${cardName}`;
+        return `+ Add ${cardName}`;
       case 'skills':
-        const hasSkills = firstStepData?.skills && firstStepData.skills.length > 0;
-        return hasSkills ? `+ Add ${cardName}` : `+ Add ${cardName}`;
+        return `Edit ${cardName}`;
       default:
-        return `+ Add`;
+        return `Edit`;
     }
   };
 
@@ -621,11 +618,10 @@ const ResumeCard = ({ cardName, icon, id }: ResumeCardProps) => {
         className={classNames(cls.header, {
           [cls.collapsedHeader]: isCollapsed,
         })}
-        onClick={handleHeaderClick}
         style={{ cursor: 'pointer' }}
       >
         <div className={cls.icon}>
-          {icon}
+          <div dangerouslySetInnerHTML={{ __html: icon }} />
           <Typography.IbmPlexMono className={classNames(cls.header, cls.text2)}>
             {cardName}
           </Typography.IbmPlexMono>

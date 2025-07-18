@@ -225,6 +225,7 @@ export const StepFormSlice = {
     // Add pseudo-fill feature using AI
     $fillResumeWithAiData: atom(null, (get, set) => {
       const currentData = get(initialState.$resumeData);
+      const photo = get(initialState.$resumePhoto);
       
       const aiGeneratedData: ResumeData = {
         name: currentData?.name || "John Doe",
@@ -239,6 +240,7 @@ export const StepFormSlice = {
           "JavaScript", "TypeScript", "React", "Node.js", "Python", 
           "AWS", "Docker", "PostgreSQL", "MongoDB", "Git"
         ],
+        photoUrl: photo ? URL.createObjectURL(photo) : undefined,
         professionalPath: currentData?.professionalPath?.length ? currentData.professionalPath : [
           {
             name: "Tech Solutions Inc.",
